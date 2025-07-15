@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Startup Validator</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgba(44, 62, 80, 0.1);
+            padding: 32px 24px 24px 24px;
+        }
+        h1 {
+            text-align: center;
+            color: #2a5d84;
+            margin-bottom: 24px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        input[type="text"], textarea {
+            border: 1px solid #b3c6e0;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 1em;
+            background: #f8fbff;
+            resize: none;
+        }
+        input[type="submit"] {
+            background: #2a5d84;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        input[type="submit"]:hover {
+            background: #1e4060;
+        }
+        .chat-area {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .chat-bubble {
+            max-width: 80%;
+            padding: 14px 18px;
+            border-radius: 18px;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        .user {
+            align-self: flex-end;
+            background: #d2e4fc;
+            color: #2a5d84;
+            border-bottom-right-radius: 4px;
+        }
+        .ai {
+            align-self: flex-start;
+            background: #f0f4fa;
+            color: #222;
+            border-bottom-left-radius: 4px;
+        }
+        .section-title {
+            margin: 8px 0 4px 4px;
+            font-weight: bold;
+            color: #2a5d84;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Startup Validator</h1>
+        <form method="post">
+            <label for="idea">Startup Idea:</label>
+            <input type="text" id="idea" name="idea" required placeholder="Describe your startup idea...">
+            <label for="pitch">Pitch Summary (optional):</label>
+            <textarea id="pitch" name="pitch" placeholder="Add a brief pitch..."></textarea>
+            <input type="submit" value="Validate">
+        </form>
+        {% if result %}
+        <div class="chat-area">
+            <div class="chat-bubble user">
+                <strong>You:</strong><br>
+                <span>{{ request.form['idea'] }}</span>
+                {% if request.form['pitch'] %}
+                <br><em>{{ request.form['pitch'] }}</em>
+                {% endif %}
+            </div>
+            <div class="chat-bubble ai">
+                <span class="section-title">Market Analysis</span><br>
+                {{ result.market }}
+            </div>
+            <div class="chat-bubble ai">
+                <span class="section-title">Competitor Analysis</span><br>
+                {{ result.competitor }}
+            </div>
+            <div class="chat-bubble ai">
+                <span class="section-title">Pitch Deck Feedback</span><br>
+                {{ result.pitchdeck }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
